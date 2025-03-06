@@ -19,7 +19,9 @@ At sherpa°, we help travelers find and purchase the visas they need. Your missi
 - Edit product information
 - Create new products
 
-**Important:** We don't expect you to complete all features in the 3-hour timeframe! Choose your focus:
+**Important:** We don't expect you to complete all features in the 3-hour timeframe! 
+
+Choose your focus and tell us:
 - Build a robust, well-structured API
 - Create an intuitive, responsive UI
 - Strike a balance between both
@@ -44,7 +46,7 @@ Need help? Contact us immediately if you encounter any setup issues!
 
 ## 🛠️ Tech Stack
 
-This repository contains an nx monorepo with:
+This repository contains an [Nx monorepo](https://nx.dev) with:
 
 1. An Angular application
 2. A NestJS application 
@@ -53,6 +55,27 @@ This repository contains an nx monorepo with:
 Feel free to use these or swap them for your preferred frameworks. Just ensure you're working with TypeScript. The setup is intentionally minimal to give you creative freedom without having to start from scratch.
 
 This project mimiks our own codebase, so it gives you a preview of what you can expect joining the team!
+
+<details>
+<summary>See our complete Techstack</summary>
+  
+```
+TypeScript
+NodeJS
+Express
+NestJS
+NoSQL (Firestore)
+SQL (PostgreSQL)
+Nx (monorepo)
+Angular (17+)
+TailwindCSS
+Terraform
+GitHub
+Datadog
+Launchdarkly
+Google Cloud Platform (Cloud Run, Cloud Functions, PubSub, BigQuery, Scheduler, Cloud Endpoints, Firestore)
+```
+</details>
 
 ### Prefer React?
 We understand you might not have all the Angular sills (yet) to hit the ground running. We deeply care about what user experience you're able to shape using technology as your tools. On the job we will support you getting up to speed with Angular.
