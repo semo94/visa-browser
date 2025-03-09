@@ -1,0 +1,30 @@
+﻿.page-header {
+  margin-bottom: 1.5rem;
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+mat-icon {
+  color: #1976d2;
+  width: 32px;
+  height: 32px;
+  font-size: 32px;
+}
+
+.subtitle {
+  margin: 0.5rem 0 0 0;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 1rem;
+  font-weight: 400;
+}

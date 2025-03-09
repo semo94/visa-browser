@@ -1,2 +1,24 @@
-<app-nx-welcome></app-nx-welcome>
-<router-outlet></router-outlet>
+<div class="app-container">
+  <mat-toolbar color="primary" class="app-toolbar">
+    <div class="toolbar-content">
+      <a routerLink="/" class="app-logo">
+        <img src="sherpa-logo.png" alt="sherpa°" class="logo-image" />
+      </a>
+      <span class="spacer"></span>
+      <div class="version-info">v{{ appVersion }}</div>
+    </div>
+  </mat-toolbar>
+
+  <main class="app-content">
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-content">
+      <p>
+        © {{ currentYear }} sherpa° - Helping travelers cross borders freely and
+        efficiently
+      </p>
+    </div>
+  </footer>
+</div>

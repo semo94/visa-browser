@@ -1,0 +1,175 @@
+﻿<div class="products-container">
+  <mat-card>
+    <mat-card-content>
+      <app-page-header
+        title="Visa Products"
+        subtitle="Browse available visa products across countries"
+        icon="travel_explore">
+      </app-page-header>
+
+      <!-- Filter Form -->
+      <form [formGroup]="filterForm" class="filter-form">
+        <h2>Filters</h2>
+        
+        <div class="filter-group">
+          <div class="filter-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Country</mat-label>
+              <input matInput formControlName="country" placeholder="Filter by country">
+              <button *ngIf="filterForm.get('country')?.value" matSuffix mat-icon-button aria-label="Clear" 
+                     (click)="filterForm.get('country')?.setValue('')">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Visa Type</mat-label>
+              <input matInput formControlName="visaType" placeholder="Filter by visa type">
+              <button *ngIf="filterForm.get('visaType')?.value" matSuffix mat-icon-button aria-label="Clear" 
+                     (click)="filterForm.get('visaType')?.setValue('')">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Entry Type</mat-label>
+              <mat-select formControlName="entryType">
+                <mat-option value="">All</mat-option>
+                <mat-option value="Single">Single</mat-option>
+                <mat-option value="Multiple">Multiple</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="filter-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Min Price ($)</mat-label>
+              <input matInput type="number" formControlName="minPrice" min="0">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Max Price ($)</mat-label>
+              <input matInput type="number" formControlName="maxPrice" min="0">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Min Stay (days)</mat-label>
+              <input matInput type="number" formControlName="minLengthOfStay" min="0">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Max Stay (days)</mat-label>
+              <input matInput type="number" formControlName="maxLengthOfStay" min="0">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="filter-actions">
+          <button mat-raised-button color="primary" (click)="resetFilters()">
+            <mat-icon>refresh</mat-icon> Reset Filters
+          </button>
+        </div>
+      </form>
+
+      <!-- Error Message -->
+      @if (error()) {
+        <div class="error-message">
+          <mat-icon>error</mat-icon>
+          <span>{{ error() }}</span>
+        </div>
+      }
+
+      <!-- Loading Progress -->
+      @if (loading()) {
+        <div class="loading-container">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
+      }
+
+      <!-- Products Table -->
+      <div class="table-container mat-elevation-z2">
+        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="onSortChange($event)">
+          
+          <!-- Country Column -->
+          <ng-container matColumnDef="country">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Country</th>
+            <td mat-cell *matCellDef="let product">{{ product.country }}</td>
+          </ng-container>
+
+          <!-- Visa Type Column -->
+          <ng-container matColumnDef="visaType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Visa Type</th>
+            <td mat-cell *matCellDef="let product">{{ product.visaType }}</td>
+          </ng-container>
+
+          <!-- Price Column -->
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
+            <td mat-cell *matCellDef="let product">${{ product.price | number:'1.2-2' }}</td>
+          </ng-container>
+
+          <!-- Length of Stay Column -->
+          <ng-container matColumnDef="lengthOfStay">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Stay Duration</th>
+            <td mat-cell *matCellDef="let product">
+              {{ product.lengthOfStay }} days
+              @if (product.lengthOfStay >= 365) {
+                <span class="stay-years">({{ (product.lengthOfStay / 365) | number:'1.0-1' }} years)</span>
+              }
+            </td>
+          </ng-container>
+
+          <!-- Number of Entries Column -->
+          <ng-container matColumnDef="entryType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Entries</th>
+            <td mat-cell *matCellDef="let product">
+              <span [class]="product.entryType === 'Single' ? 'single-entry' : 'multiple-entry'">
+                {{ product.entryType }}
+              </span>
+            </td>
+          </ng-container>
+
+          <!-- Filing Fee Column -->
+          <ng-container matColumnDef="filingFee">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Filing Fee</th>
+            <td mat-cell *matCellDef="let product">${{ product.filingFee | number:'1.2-2' }}</td>
+          </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let product">
+              <a [routerLink]="['/products', product.id]" mat-icon-button color="primary" matTooltip="View details">
+                <mat-icon>visibility</mat-icon>
+              </a>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <!-- Row shown when no data matches the filter -->
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+              <div *ngIf="!loading()" class="no-data-message">
+                <mat-icon>info</mat-icon>
+                No products found matching the current filters.
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Paginator -->
+      <mat-paginator
+        [length]="totalProducts()"
+        [pageSize]="filterValues.limit || 10"
+        [pageSizeOptions]="[5, 10, 25, 50, 100]"
+        [pageIndex]="(filterValues.page || 1) - 1"
+        (page)="onPageChange($event)"
+        showFirstLastButtons
+        aria-label="Select page of visa products">
+      </mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,28 @@
+{
+    "name": "Sherpa Visa Products",
+    "output": "docs",
+    "tsconfig": "apps/client/tsconfig.json",
+    "hideGenerator": true,
+    "disableSourceCode": false,
+    "disableCoverage": false,
+    "disablePrivate": false,
+    "disableProtected": false,
+    "disableInternal": false,
+    "disableLifeCycleHooks": false,
+    "disableRoutesGraph": false,
+    "customFavicon": "apps/client/public/sherpa-favicon-32x32.png",
+    "serve": {
+        "port": 8080
+    },
+    "theme": "material",
+    "includesName": "Additional Documentation",
+    "excludes": [
+        "**/*spec.ts"
+    ],
+    "includesRendering": {
+        "readme": true,
+        "changelog": true,
+        "license": true,
+        "contributing": true
+    }
+}
