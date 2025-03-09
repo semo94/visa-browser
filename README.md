@@ -1,5 +1,3 @@
-![sherpa coding challenge banner](docs/fullstack-engineer.png)
-
 # 🌎 Fullstack Engineer Coding Challenge
 
 ## Welcome to sherpa°!
