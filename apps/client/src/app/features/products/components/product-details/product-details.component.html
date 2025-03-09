@@ -1,0 +1,90 @@
+﻿<div class="product-details-container">
+  <mat-card>
+    <mat-card-content>
+      <!-- Back button -->
+      <div class="back-link">
+        <button mat-button color="primary" (click)="goBack()">
+          <mat-icon>arrow_back</mat-icon> Back to Products
+        </button>
+      </div>
+      
+      @if (loading()) {
+        <div class="loading-container">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </div>
+      }
+      
+      @if (error()) {
+        <div class="error-message">
+          <mat-icon>error</mat-icon>
+          <span>{{ error() }}</span>
+          <button mat-button color="primary" (click)="goBack()">
+            Return to Products
+          </button>
+        </div>
+      }
+      
+      @if (product() && !loading() && !error()) {
+        <div class="product-content">
+          <app-page-header
+            [title]="product()!.visaType + ' Visa'"
+            [subtitle]="product()!.country"
+            icon="travel_explore">
+          </app-page-header>
+          
+          <div class="product-overview">
+            <mat-chip-set>
+              <mat-chip [class]="product()!.entryType === 'Single' ? 'single-entry' : 'multiple-entry'">
+                {{ product()!.entryType }} Entry
+              </mat-chip>
+              <mat-chip>
+                {{ product()!.lengthOfStay }} days
+                @if (product()!.lengthOfStay >= 365) {
+                  ({{ (product()!.lengthOfStay / 365) | number:'1.0-1' }} years)
+                }
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+          
+          <mat-divider class="section-divider"></mat-divider>
+          
+          <div class="pricing-section">
+            <h2>Pricing</h2>
+            <div class="price-details">
+              <div class="price-item">
+                <span class="price-label">Visa Price</span>
+                <span class="price-value">${{ product()!.price | number:'1.2-2' }}</span>
+              </div>
+              <div class="price-item">
+                <span class="price-label">Filing Fee</span>
+                <span class="price-value">${{ product()!.filingFee | number:'1.2-2' }}</span>
+              </div>
+              <div class="price-item total">
+                <span class="price-label">Total</span>
+                <span class="price-value">${{ (product()!.price + product()!.filingFee) | number:'1.2-2' }}</span>
+              </div>
+            </div>
+          </div>
+          
+          <mat-divider class="section-divider"></mat-divider>
+          
+          <div class="meta-section">
+            <h2>Additional Information</h2>
+            <p class="meta-item">
+              <span class="meta-label">Created</span>
+              <span class="meta-value">{{ product()!.createdAt | date:'medium' }}</span>
+            </p>
+            <p class="meta-item">
+              <span class="meta-label">Last Updated</span>
+              <span class="meta-value">{{ product()!.updatedAt | date:'medium' }}</span>
+            </p>
+            <p class="meta-item">
+              <span class="meta-label">Product ID</span>
+              <span class="meta-value">{{ product()!.id }}</span>
+            </p>
+          </div>
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>
