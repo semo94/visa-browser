@@ -47,13 +47,13 @@ export class QueryProductDto {
   @ApiProperty({ description: 'Filter by minimum price', required: false })
   @IsOptional()
   @Type(() => Number)
-  @IsPositive()
+  @Min(0)
   minPrice?: number;
 
   @ApiProperty({ description: 'Filter by maximum price', required: false })
   @IsOptional()
   @Type(() => Number)
-  @IsPositive()
+  @Min(0)
   maxPrice?: number;
 
   @ApiProperty({ description: 'Filter by minimum length of stay', required: false })
