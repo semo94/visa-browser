@@ -109,17 +109,16 @@ export class ProductsService {
       whereConditions.entryType = ILike(`%${queryParams.entryType}%`);
     }
 
-    if (queryParams.minPrice) {
+    // Handle price filtering
+    if (queryParams.minPrice !== undefined && queryParams.maxPrice !== undefined) {
+      // Both min and max are provided
+      whereConditions.price = Between(queryParams.minPrice, queryParams.maxPrice);
+    } else if (queryParams.minPrice !== undefined) {
+      // Only min is provided
       whereConditions.price = MoreThanOrEqual(queryParams.minPrice);
-    }
-
-    if (queryParams.maxPrice) {
-      // Handle case when both min and max are specified
-      if (queryParams.minPrice) {
-        whereConditions.price = Between(queryParams.minPrice, queryParams.maxPrice);
-      } else {
-        whereConditions.price = LessThanOrEqual(queryParams.maxPrice);
-      }
+    } else if (queryParams.maxPrice !== undefined) {
+      // Only max is provided
+      whereConditions.price = LessThanOrEqual(queryParams.maxPrice);
     }
 
     if (queryParams.minLengthOfStay) {
